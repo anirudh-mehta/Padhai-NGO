@@ -21,9 +21,15 @@ Powered by SSO - Gmail, Facebook, Twitter etc.
 
 + Response 200 (application/json)
 
+    + Headers
+    
+            Location: /users/d5d3fa3a-acd5-4c00-9374-85746145464a
+                
+    + Body   
+    
         [
                 {
-                    "id": "admin",
+                    "id": "d5d3fa3a-acd5-4c00-9374-85746145464a",
                     "name": "Padhai 16.0", 
                     "description": "Padhai 16.0",
                     "scheduledStartDate": "1519485598000",
@@ -33,6 +39,16 @@ Powered by SSO - Gmail, Facebook, Twitter etc.
                     "active": "false"
                 }
         ]
+        
+
+### Close an existing initiative [DELETE /users/{userId}]
+
+Soft delete, i.e. actual record is not deleted but active column is set to false.
+
++ Parameters
+    + userId (uuid) - User Id
+
++ Response 204         
 
 ## User Management [/users]
 
