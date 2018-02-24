@@ -11,6 +11,13 @@ Powered by SSO - Gmail, Facebook, Twitter etc.
 
 (Refer Auth0 https://auth0.com/)
 
+## API Headers 
+
++ Authorization: Bearer {token}
+
++ X-INITIATIVE-ID: {initiative_id (uuid)} 
+    - Defaults to currently active initiative, if not provided. 
+
 ## Initiative Management [/initiatives]
 
 ### List All Initiative [GET /initiatives{?active}]
@@ -33,13 +40,60 @@ Powered by SSO - Gmail, Facebook, Twitter etc.
                         "name": "Padhai 16.0", 
                         "description": "Padhai 16.0",
                         "scheduledStartDate": "1519485598000",
-                        "scheduledEndDate": "1519485598000",
-                        "actualStartDate": "1519485598000",
-                        "actualEndDate": "1519485598000",
-                        "active": "false"
+                        "scheduledEndDate": "1525485598000",
+                        "actualStartDate": "1619485598000",
+                        "actualEndDate": null,
+                        "active": "true"
                     }
             ]
-        
+
+### Create a new initiative [POST /initiatives]
+
++ Request (application/json)
+
+        {
+            "name": "Padhai 16.0", 
+            "description": "Padhai 16.0",
+            "scheduledStartDate": "1519485598000",
+            "scheduledEndDate": "1525485598000"
+        }
+
++ Response 200 (application/json)
+
+    + Headers
+    
+            Location: /users/d5d3fa3a-acd5-4c00-9374-85746145464a
+                
+    + Body            
+
+            {
+                "id": "d5d3fa3a-acd5-4c00-9374-85746145464a",
+                "name": "Padhai 16.0", 
+                "description": "Padhai 16.0",
+                "scheduledStartDate": "1519485598000",
+                "scheduledEndDate": "1525485598000"
+            }
+   
+### Update an existing initiative [PUT /initiatives]
+
++ Request (application/json)
+
+    + Body
+    
+            {
+                "id": "d5d3fa3a-acd5-4c00-9374-85746145464a",
+                "name": "New Name"
+            }       
+
++ Response 204
+
+
+### Start an initiative [PUT /initiatives/{initiativeId}/start]
+
+Can be done only if no other active initiative exists.
+
++ Response 204
+
 
 ### Close an existing initiative [DELETE /initiatives/{initiativeId}]
 
@@ -48,7 +102,8 @@ Soft delete, i.e. actual record is not deleted but active column is set to false
 + Parameters
     + initiativeId (uuid) - Initiative Id
 
-+ Response 204         
++ Response 204
+
 
 ## User Management [/users]
 
@@ -347,7 +402,7 @@ Soft delete, i.e. actual record is not deleted but active column is set to false
 + Response 204 
 
 
-### Remove an existing stadent [DELETE /students/{studentId}]
+### Remove an existing student [DELETE /students/{studentId}]
 
  Soft delete, i.e. actual record is not deleted but active column is set to false.
 
