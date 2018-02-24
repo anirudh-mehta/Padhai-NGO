@@ -41,12 +41,12 @@ Powered by SSO - Gmail, Facebook, Twitter etc.
             ]
         
 
-### Close an existing initiative [DELETE /users/{userId}]
+### Close an existing initiative [DELETE /initiatives/{initiativeId}]
 
 Soft delete, i.e. actual record is not deleted but active column is set to false.
 
 + Parameters
-    + userId (uuid) - User Id
+    + initiativeId (uuid) - Initiative Id
 
 + Response 204         
 
@@ -250,7 +250,7 @@ Soft delete, i.e. actual record is not deleted but active column is set to false
                         "name": "Volunteer"
                 }]
             }]
-            
+
 
 ## Student Management [/students]
 
