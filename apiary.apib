@@ -1,0 +1,377 @@
+FORMAT: 1A
+HOST: http://polls.apiblueprint.org/
+
+# Padhai
+
+Infosys Arpan's CSR Initiative 
+
+## Authentication 
+
+Powered by SSO - Gmail, Facebook, Twitter etc. 
+
+(Refer Auth0 https://auth0.com/)
+
+## User Management [/users]
+
+### List All User Profiles [GET /users/profiles]
+
++ Response 200 (application/json)
+
+        [
+                {
+                    "code": "admin",
+                    "name": "Administrator"
+                }, 
+                {
+                    "code": "volunteer",
+                    "name": "Volunteer"
+                },
+                {
+                    "code": "panelist",
+                    "name": "Panelist"
+                },
+                {
+                    "code": "tl",
+                    "name": "Track Lead"
+                },
+                {
+                    "code": "poc",
+                    "name": "POC"
+                }
+        ]
+
+### Create a new User [POST /users]
+
++ Request (application/json)
+
+        {
+            "externalId": "EmployeeId1234",
+            "firstName": "Test",
+            "lastName": "User",
+            "gender": "Male", 
+            "companyName": "Infosys", 
+            "phone": "1312312",
+            "alternativePhone": "12312",
+            "voip":"12312",
+            "emergencyPhone": "2342342",
+            "emergencyContactName": "Mr. Example User",
+            "email":"test@example.com",
+            "alternateEmail":"test2@example.com",
+            "dob":"28-10-1955",
+            "address": {
+                "address": "#34534 ABC Street",
+                "city": "Chandigarh",
+                "state": "Chandigarh",
+                "pincode": "149891"
+            }, 
+            "conveyance": "car"
+        }
+
++ Response 200 (application/json)
+
+    + Headers
+    
+            Location: /users/c6568f92-9e28-40f5-9c4d-13d64b70d305
+                
+    + Body            
+
+            {
+                "id":"c6568f92-9e28-40f5-9c4d-13d64b70d305",
+                "externalId": "EmployeeId1234",
+                "firstName": "Test",
+                "lastName": "User",
+                "gender": "Male", 
+                "companyName": "Infosys", 
+                "phone": "1312312",
+                "alternativePhone": "12312",
+                "voip":"12312",
+                "active": true,
+                "emergencyPhone": "2342342",
+                "emergencyContactName": "Mr. Example User",
+                "email":"test@example.com",
+                "alternateEmail":"test2@example.com",
+                "dob":"28-10-1955",
+                "address": {
+                    "id": "8403fc0d-2229-47a7-a262-ce693e9c0792",
+                    "address": "#34534 ABC Street",
+                    "city": "Chandigarh",
+                    "state": "Chandigarh",
+                    "pincode": "149891", 
+                    "createdDate": "1519485598000",
+                    "updatedDate": "1519485598000"
+                }, 
+                "conveyance": "car"
+                "createdDate": "1519485598000",
+                "updatedDate": "1519485598000"
+            }
+
+### Update an existing user [PUT /users/{userId}]
+
++ Parameters
+    + userId (uuid) - User Id
+
++ Request (application/json)
+
+        {
+            "id":"c6568f92-9e28-40f5-9c4d-13d64b70d305",
+            "firstName": "New Name", 
+            "address": {
+                "id": "8403fc0d-2229-47a7-a262-ce693e9c0792",
+                "address": "New Address",
+            }
+        }
+
++ Response 204 
+
+### Remove an existing user [DELETE /users/{userId}]
+
+Soft delete, i.e. actual record is not deleted but active column is set to false.
+
++ Parameters
+    + userId (uuid) - User Id
+
++ Response 204 
+
+### Associate a profile [POST /users/{userId}/profile]
+
++ Parameters
+    + userId (uuid) - User Id
+    
++ Request (application/json)
+
+        [{
+            "profile": {
+                "code": "admin"
+            }
+        }, {
+            "profile": {
+                "code": "volunteer"
+            }
+        }]
+        
++ Response 204 
+
+### Dissociate an existing profile [PUT /users/{userId}/profile}]
+
++ Parameters
+    + userId (uuid) - User Id
+
++ Request (application/json)
+
+        [{
+            "profile": {
+                "code": "admin"
+            }
+        }]
+        
++ Response 204 
+
+### List existing users [GET /users{?profile}]
+
++ Parameters
+    + profile (optional, number) - Profile Code (Common Separated List)
+
++ Response 200 (application/json)
+
+    + Body   
+
+            [{
+                "id":"c6568f92-9e28-40f5-9c4d-13d64b70d305",
+                "externalId": "EmployeeId1234",
+                "firstName": "Test",
+                "lastName": "User",
+                "gender": "Male", 
+                "companyName": "Infosys", 
+                "phone": "1312312",
+                "alternativePhone": "12312",
+                "voip":"12312",
+                "emergencyPhone": "2342342",
+                "emergencyContactName": "Mr. Example User",
+                "email":"test@example.com",
+                "alternateEmail":"test2@example.com",
+                "dob":"28-10-1955",
+                "active": true,
+                "address": {
+                    "id": "8403fc0d-2229-47a7-a262-ce693e9c0792",
+                    "address": "#34534 ABC Street",
+                    "city": "Chandigarh",
+                    "state": "Chandigarh",
+                    "pincode": "149891", 
+                    "createdDate": "1519485598000",
+                    "updatedDate": "1519485598000"
+                }, 
+                "conveyance": "car"
+                "createdDate": "1519485598000",
+                "updatedDate": "1519485598000", 
+                "profiles": [{
+                        "code": "admin", 
+                        "name": "Administrator"
+                    }, {
+                        "code": "volunteer"
+                        "name": "Volunteer"
+                }]
+            }]
+            
+
+## Student Management [/students]
+
+### Create a new Student [POST /students]
+
++ Request (application/json)
+
+        {
+            "externalId": "SchoolRollNumber213",
+            "firstName": "Test",
+            "lastName": "User",
+            "gender": "Male", 
+            "schoolName":"DAV School, Chandigarh",
+            "fatherName": "Father Name",
+            "motherName": "Mother Name",
+            "phone": "1312312",
+            "emergencyPhone": "2342342",
+            "emergencyContactName": "Mr. Example User",
+            "email":"test@example.com",
+            "alternateEmail":"test2@example.com",
+            "dob":"28-10-1955",
+            "address": {
+                "address": "#34534 ABC Street",
+                "city": "Chandigarh",
+                "state": "Chandigarh",
+                "pincode": "149891"
+            }, 
+            "aadhaarNumber":"23424234",
+            "photoUrl":"https://upload.wikimedia.org/wikipedia/commons/8/8b/Creative-Tail-People-man-2.svg",
+            "area": {
+                "code":"sn1"
+            }
+        }
+
++ Response 200 (application/json)
+
+    + Headers
+    
+            Location: /students/93633b82-451e-4c47-b8f2-eeb124ff09b6
+                
+    + Body            
+
+            {
+                "id": "93633b82-451e-4c47-b8f2-eeb124ff09b6",
+                "externalId": "SchoolRollNumber213",
+                "firstName": "Test",
+                "lastName": "User",
+                "gender": "Male", 
+                "schoolName":"DAV School, Chandigarh",
+                "fatherName": "Father Name",
+                "motherName": "Mother Name",
+                "phone": "1312312",
+                "emergencyPhone": "2342342",
+                "emergencyContactName": "Mr. Example User",
+                "email":"test@example.com",
+                "alternateEmail":"test2@example.com",
+                "dob":"28-10-1955",
+                "address": {
+                    "id": "5a8d07f8-1d06-426b-9300-2f15324f2b58",
+                    "address": "#34534 ABC Street",
+                    "city": "Chandigarh",
+                    "state": "Chandigarh",
+                    "pincode": "149891",
+                    "createdDate": "1519485598000",
+                    "updatedDate": "1519485598000", 
+                }, 
+                "aadhaarNumber":"23424234",
+                "photoUrl":"https://upload.wikimedia.org/wikipedia/commons/8/8b/Creative-Tail-People-man-2.svg",
+                "area": {
+                    "code":"sn1"
+                },
+                "active": true,
+                "createdDate": "1519485598000",
+                "updatedDate": "1519485598000"
+            }
+
+
+### Update an existing student [PUT /students/{studentId}]
+
++ Parameters
+    + studentId (uuid) - Student Id
+
++ Request (application/json)
+
+        {
+            "id":"93633b82-451e-4c47-b8f2-eeb124ff09b6",
+            "firstName": "New Name", 
+            "address": {
+                "id": "5a8d07f8-1d06-426b-9300-2f15324f2b58",
+                "address": "New Address",
+            }
+        }
+
++ Response 204 
+
+
+### Remove an existing stadent [DELETE /students/{studentId}]
+
+ Soft delete, i.e. actual record is not deleted but active column is set to false.
+
++ Parameters
+    + studentId (uuid) - Student Id
+    
++ Response 204 
+
+## Area Management [/areas]
+
+### List All Areas [GET /areas{?active} ]
+
++ Parameters
+    + active (optional, boolean)
+        - true, return only active records
+        
++ Response 200 (application/json)
+
+        [
+                {
+                    "code": "sn1",
+                    "name": "Shastri Nagar Block 1",
+                    "description": "Shastri Nagar Block 1",
+                    "securityConsiderations": "Female volunteers accompanied by a male volunteer.",
+                    "location": {
+                        "lat": 30.7333,
+                        "lng": 76.7734,
+                    },
+                    "active": true
+                }, 
+                {
+                    "code": "edu",
+                    "name": "Education",
+                    "description": "Education",
+                    "location": {
+                        "lat": 30.7333,
+                        "lng": 76.7734,
+                    },
+                    "active": true
+                }
+        ]        
+
+## Track Management [/tracks]
+
+### List All Tracks [GET /tracks{?active} ]
+
++ Parameters
+    + active (optional, boolean)
+        - true, return only active records
+    
++ Response 200 (application/json)
+
+        [
+                {
+                    "code": "hc",
+                    "name": "Health Care",
+                    "description": "Health Care"
+                    "active": true
+                }, 
+                {
+                    "code": "edu",
+                    "name": "Education",
+                    "description": "Education"
+                    "active": true
+                }
+        ]
