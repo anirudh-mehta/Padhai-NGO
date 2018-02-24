@@ -11,6 +11,29 @@ Powered by SSO - Gmail, Facebook, Twitter etc.
 
 (Refer Auth0 https://auth0.com/)
 
+## Initiative Management [/initiatives]
+
+### List All Initiative [GET /initiatives{?active}]
+
++ Parameters
+    + active (optional, boolean)
+        - true, return currently active initiative
+
++ Response 200 (application/json)
+
+        [
+                {
+                    "id": "admin",
+                    "name": "Padhai 16.0", 
+                    "description": "Padhai 16.0",
+                    "scheduledStartDate": "1519485598000",
+                    "scheduledEndDate": "1519485598000",
+                    "actualStartDate": "1519485598000",
+                    "actualEndDate": "1519485598000",
+                    "active": "false"
+                }
+        ]
+
 ## User Management [/users]
 
 ### List All User Profiles [GET /users/profiles]
@@ -340,9 +363,9 @@ Soft delete, i.e. actual record is not deleted but active column is set to false
                     "active": true
                 }, 
                 {
-                    "code": "edu",
-                    "name": "Education",
-                    "description": "Education",
+                    "code": "sn2",
+                    "name": "Shastri Nagar Block 2",
+                    "description": "Shastri Nagar Block 2",
                     "location": {
                         "lat": 30.7333,
                         "lng": 76.7734,
@@ -372,6 +395,30 @@ Soft delete, i.e. actual record is not deleted but active column is set to false
                     "code": "edu",
                     "name": "Education",
                     "description": "Education"
+                    "active": true
+                }
+        ]
+        
+### List All Classes for a track [GET /tracks/{trackId}{?active}]
+
++ Parameters
+    + trackId - Example, edu for education
+    + active (optional, boolean)
+        - true, return only active records
+
++ Response 200 (application/json)
+
+        [
+                {
+                    "code": "pluto",
+                    "name": "Pluto",
+                    "description": "Beginner Low"
+                    "active": true
+                }, 
+                {
+                    "code": "mercury",
+                    "name": "Mercury",
+                    "description": "Beginner Middle"
                     "active": true
                 }
         ]
